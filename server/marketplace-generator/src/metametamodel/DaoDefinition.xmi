@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<daos:Daos xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:daos="http://remus-software.org/marketplace/daos" xsi:schemaLocation="http://remus-software.org/marketplace/daos ../metamodel/Daos.ecore">
+  <daoCollection>
+    <entityClass href="EntityDefinition.ecore#//Market"/>
+  </daoCollection>
+  <daoCollection>
+    <entityClass href="EntityDefinition.ecore#//Category"/>
+  </daoCollection>
+  <daoCollection>
+    <entityClass href="EntityDefinition.ecore#//Node"/>
+  </daoCollection>
+  <daoCollection>
+    <entityClass href="EntityDefinition.ecore#//Platform"/>
+  </daoCollection>
+  <daoCollection>
+    <entityClass href="EntityDefinition.ecore#//Clickthrough"/>
+  </daoCollection>
+  <daoCollection>
+    <entityClass href="EntityDefinition.ecore#//Download"/>
+  </daoCollection>
+</daos:Daos>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- THIS IS GENERATED XML. DO NOT EDIT ANY CONTENT!!!! -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+       default-autowire="byType">
+
+	<bean id="marketBean" class="org.remus.marketplace.dao.impl.gen.MarketDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>	
+
+	<bean id="categoryBean" class="org.remus.marketplace.dao.impl.gen.CategoryDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>	
+
+	<bean id="nodeBean" class="org.remus.marketplace.dao.impl.gen.NodeDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>	
+
+	<bean id="platformBean" class="org.remus.marketplace.dao.impl.gen.PlatformDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>	
+
+	<bean id="clickthroughBean" class="org.remus.marketplace.dao.impl.gen.ClickthroughDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>	
+
+	<bean id="downloadBean" class="org.remus.marketplace.dao.impl.gen.DownloadDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>	
+
+</beans>

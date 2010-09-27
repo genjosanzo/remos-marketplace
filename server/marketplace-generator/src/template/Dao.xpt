@@ -1,0 +1,278 @@
+«IMPORT daos»
+«IMPORT ecore»
+
+«EXTENSION template::GeneratorExtensions»
+«EXTENSION metamodel::Extensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+«EXTENSION org::eclipse::xtend::util::stdlib::globalvar»
+
+
+
+«DEFINE main FOR Daos»
+«EXPAND dao FOREACH daoCollection»
+«EXPAND springFile FOR this»
+«ENDDEFINE»
+«DEFINE dao FOR DaoImpl» 
+«storeGlobalVar("entity", this.entityClass)»
+«FOREACH methods AS e»
+«storeGlobalVar("method",(SearchMethod)e)»
+«ENDFOREACH»
+«FOREACH ((SearchMethod)getGlobalVar("method")).attributeName AS e1»
+«ENDFOREACH»
+
+«FILE "dao/org/remus/marketplace/dao/impl/gen/" +((EClass)getGlobalVar("entity")).name+"DaoImpl.java"»
+/*******************************************************************************
+ * Copyright (c) 2010 Tom Seidel, Remus Software
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ *
+ * Contributors:
+ *     Tom Seidel - initial API and implementation
+ *******************************************************************************/
+package org.remus.marketplace.dao.impl.gen;
+
+import java.io.Serializable;
+import org.remus.marketplace.dao.gen.«((EClass)getGlobalVar("entity")).name»Dao;
+import org.remus.marketplace.dao.AdvancedCriteria;
+import org.remus.marketplace.entities.«((EClass)getGlobalVar("entity")).name»;
+import org.remus.marketplace.dao.AbstractCrudDao;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+
+
+/**
+ * This is a generated class. DO NOT MODIFY THE CONTENTS!!
+ * @author Tom Seidel <tom.seidel@remus-software.org>
+ */
+public class «((EClass)getGlobalVar("entity")).name»DaoImpl extends AbstractCrudDao<«((EClass)getGlobalVar("entity")).name»> implements «((EClass)getGlobalVar("entity")).name»Dao {
+	«EXPAND findById FOREACH ((EClass)getGlobalVar("entity")).eAllAttributes»
+	«EXPAND method FOREACH methods»
+	«FOREACH ((EClass)getGlobalVar("entity")).eAllReferences AS e»
+		«IF hasFKFunction(e)»
+		public «IF targetIsOneToOne(e)»«((EClass)getGlobalVar("entity")).name»«ELSE»java.util.List<«((EClass)getGlobalVar("entity")).name»>«ENDIF» «getFKFunctionName(e)»(«getFKFunctionParameter(e)», AdvancedCriteria adv) {
+			Criteria createCriteria = getCurrentSession()
+				.createCriteria(«((EClass)getGlobalVar("entity")).name».class).createCriteria("«e.name»")
+				.add(Restrictions.eq("«getPKColumnFromFKReference(e)»", id));
+			 if (adv != null) {
+				adv.add2Criterion(createCriteria);
+			 }
+			 «IF targetIsOneToOne(e)»
+			 java.util.List result = createCriteria.list();
+			 if (result.size() == 1) {
+			 	return («((EClass)getGlobalVar("entity")).name»)result.get(0);
+			 } else if (result.size() > 1) {
+			 	throw new IllegalArgumentException("Find returned more than one Result...");
+			 } else {
+			 	return null;
+			 }
+			 «ELSE»
+			return createCriteria.list();
+			 «ENDIF»
+		}
+		
+		«IF targetIsOneToOne(e)»
+		«addInterfaceName(((EClass)getGlobalVar("entity")).name)»
+		«ELSE»
+		«addInterfaceName("java.util.List<" + ((EClass)getGlobalVar("entity")).name + ">")»
+		«ENDIF»
+		«addInterfaceName(getFKFunctionName(e) + "(" + getFKFunctionParameter(e)+", AdvancedCriteria adv);")»
+		«ENDIF»
+		«IF hasLazyFunction(e)»
+		public «IF e.upperBound == 1»org.remus.marketplace.entities.«e.eReferenceType.name»«ELSE»java.util.List<org.remus.marketplace.entities.«e.eReferenceType.name»>«ENDIF» getChildrenOf«e.name.firstToUpper()»(«((EClass)getGlobalVar("entity")).name» base«IF e.eOpposite != null», AdvancedCriteria adv«ENDIF») {
+			«IF e.eOpposite == null»
+				java.util.List<org.remus.marketplace.entities.«e.eReferenceType.name»> result = getHibernateTemplate().find(
+					"select t from «((EClass)getGlobalVar("entity")).name» d join d.«e.name» t where d.«getIdAttribute((EClass)getGlobalVar("entity")).name» = ?", base.get«firstToUpper(getIdAttribute((EClass)getGlobalVar("entity")).name)»());
+			«ELSE»
+			Criteria createCriteria = getCurrentSession()
+				.createCriteria(org.remus.marketplace.entities.«e.eReferenceType.name».class).createCriteria("«e.eOpposite.name»")
+				.add(Restrictions.eq("«getIdAttribute((EClass)getGlobalVar("entity")).name»", base.get«firstToUpper(getIdAttribute((EClass)getGlobalVar("entity")).name)»()));
+			 if (adv != null) {
+				adv.add2Criterion(createCriteria);
+			 }
+			 java.util.List result = createCriteria.list();
+			«ENDIF»
+			«IF e.upperBound == 1»
+			 if (result.size() == 1) {
+			 	return (org.remus.marketplace.entities.«e.eReferenceType.name»)result.iterator().next();
+			 } else if (result.size() > 1) {
+			 	throw new IllegalArgumentException("Find returned more than one Result...");
+			 } else {
+			 	return null;
+			 }
+			 «ELSE»
+			return result;	
+			«ENDIF»
+		}
+		«IF e.eOpposite != null && e.upperBound != 1»
+		public org.remus.marketplace.services.SearchResult<org.remus.marketplace.entities.«e.eReferenceType.name»> searchChildrenOf«e.name.firstToUpper()»(«((EClass)getGlobalVar("entity")).name» base, AdvancedCriteria adv, int page, int entitiesPerPage) {
+			assert page >= 0;
+			assert entitiesPerPage > 0;
+			Criteria criteria = getCurrentSession()
+				.createCriteria(org.remus.marketplace.entities.«e.eReferenceType.name».class).createCriteria("«e.eOpposite.name»")
+				.add(Restrictions.eq("«getIdAttribute((EClass)getGlobalVar("entity")).name»", base.get«firstToUpper(getIdAttribute((EClass)getGlobalVar("entity")).name)»()));
+			
+			if (adv != null) {
+				adv.add2Criterion(criteria);
+			}
+			criteria.setFirstResult(page);
+			criteria.setMaxResults(entitiesPerPage);	 
+			 final int count = count(criteria);
+			 if (adv.getFirstResult() >= 0
+					&& count < adv.getFirstResult() * adv.getMaxResults()) {
+				throw new IllegalArgumentException(
+						"Paging index higher than available records");
+			 }
+			return new org.remus.marketplace.services.SearchResult<org.remus.marketplace.entities.«e.eReferenceType.name»>(count, adv.getFirstResult(),
+					adv.getMaxResults(), criteria.list());
+			}
+		«addInterfaceName("org.remus.marketplace.services.SearchResult<org.remus.marketplace.entities." + e.eReferenceType.name + "> searchChildrenOf" + e.name.firstToUpper() +"("+((EClass)getGlobalVar("entity")).name+" base, AdvancedCriteria adv, int page, int entitiesPerPage);")»
+		«ENDIF»
+		public void lazyAttach«e.name.firstToUpper()»(«((EClass)getGlobalVar("entity")).name» base) {
+			«IF e.eOpposite == null»
+			«IF e.upperBound == 1»
+				java.util.Collection<org.remus.marketplace.entities.«e.eReferenceType.name»> result = java.util.Collections.singletonList(getChildrenOf«e.name.firstToUpper()»(base));
+			«ELSE»
+				java.util.Collection<org.remus.marketplace.entities.«e.eReferenceType.name»> result = getChildrenOf«e.name.firstToUpper()»(base);
+			«ENDIF»
+			«ELSE»
+			«IF e.upperBound == 1»
+				java.util.Collection<org.remus.marketplace.entities.«e.eReferenceType.name»> result = java.util.Collections.singletonList(getChildrenOf«e.name.firstToUpper()»(base, null));
+			«ELSE»
+				java.util.Collection<org.remus.marketplace.entities.«e.eReferenceType.name»> result = getChildrenOf«e.name.firstToUpper()»(base,null);
+			«ENDIF»
+			 «ENDIF»
+			«IF e.upperBound == 1»
+			 if (result.size() == 1) {
+			 	base.set«e.name.firstToUpper()»((org.remus.marketplace.entities.«e.eReferenceType.name»)result.iterator().next());
+			 } else if (result.size() > 1) {
+			 	throw new IllegalArgumentException("Find returned more than one Result...");
+			 }
+			«ELSE»
+			 base.get«e.name.firstToUpper()»().clear();
+			 for(org.remus.marketplace.entities.«e.eReferenceType.name» obj : result) {
+			 	base.get«e.name.firstToUpper()»().add(obj);
+			 }
+			«ENDIF»
+		}
+			«IF e.upperBound == 1»
+		«addInterfaceName("org.remus.marketplace.entities." +e.eReferenceType.name)»
+			«ELSE»
+		«addInterfaceName("java.util.List<org.remus.marketplace.entities." + e.eReferenceType.name + ">")»
+			«ENDIF»
+		«addInterfaceName("getChildrenOf"+e.name.firstToUpper() + "(" + ((EClass)getGlobalVar("entity")).name +" base")»
+		«IF e.eOpposite != null»
+		«addInterfaceName(", AdvancedCriteria adv")»
+		«ENDIF»
+		«addInterfaceName(");")»
+		
+		«addInterfaceName("void lazyAttach"+e.name.firstToUpper() + "(" + ((EClass)getGlobalVar("entity")).name +" base);")»
+		«ENDIF»
+	«ENDFOREACH»
+	
+}
+«ENDFILE»
+«FILE "dao/org/remus/marketplace/dao/gen/" +((EClass)getGlobalVar("entity")).name+"Dao.java"»
+
+/*******************************************************************************
+ * Copyright (c) 2010 Tom Seidel, Remus Software
+ * All rights reserved.
+ *
+ *
+ * Contributors:
+ *     Tom Seidel - initial API and implementation
+ *******************************************************************************/
+package org.remus.marketplace.dao.gen;
+
+import org.remus.marketplace.dao.CrudDao;
+import org.remus.marketplace.dao.AdvancedCriteria;
+import org.remus.marketplace.entities.«((EClass)getGlobalVar("entity")).name»;
+
+/**
+ * This is a generated class. DO NOT MODIFY THE CONTENTS!!
+ * @author Tom Seidel <tom.seidel@remus-software.org>
+ */
+public interface «((EClass)getGlobalVar("entity")).name»Dao extends CrudDao<«((EClass)getGlobalVar("entity")).name»> {
+	«FOREACH getInterfaceNames() AS e»
+	«e»
+	«ENDFOREACH»
+}
+«clearInterfaceName()»
+«ENDFILE»
+
+«ENDDEFINE»
+«DEFINE method FOR DaoMethod»
+	
+	«IF metaType == SearchMethod»
+		«EXPAND searchMethod FOR (SearchMethod)this»
+	«ENDIF»
+	
+	
+	
+«ENDDEFINE»
+
+«DEFINE searchMethod FOR SearchMethod»
+	
+	public «returnValue» «name» «calculateParameter(attributeName)» {
+		Criteria createCriteria = getCurrentSession()
+				.createCriteria(«((EClass)getGlobalVar("entity")).name».class);
+		«FOREACH attributeName AS e»
+		createCriteria.add(Restrictions.like("«e.name»",  «e.name»));
+		«ENDFOREACH»
+		return createCriteria.list();
+		
+	}
+	«addInterfaceName("public")»
+	«addInterfaceName(returnValue)»
+	«addInterfaceName(name)»
+	«addInterfaceName(calculateParameter(attributeName))»
+	«addInterfaceName(";")»
+	
+«ENDDEFINE»
+
+«DEFINE findById FOR EAttribute»
+«IF iD»
+public «((EClass)getGlobalVar("entity")).name» findById(«eAttributeType.instanceTypeName» id) {
+	return («((EClass)getGlobalVar("entity")).name»)getHibernateTemplate().get(«((EClass)getGlobalVar("entity")).name».class, id);
+
+}
+«addInterfaceName("public")»
+«addInterfaceName(((EClass)getGlobalVar("entity")).name)»
+«addInterfaceName("findById(")»
+«addInterfaceName(eAttributeType.instanceTypeName)»
+«addInterfaceName("id);")»
+«ENDIF»
+«IF isUniqueColumn(this)»
+public «((EClass)getGlobalVar("entity")).name» findBy«name.firstToUpper()»(«eAttributeType.instanceTypeName» id) {
+	Criteria createCriteria = getCurrentSession()
+				.createCriteria(«((EClass)getGlobalVar("entity")).name».class);
+	createCriteria.add(Restrictions.eq("«name»",  id));
+	 java.util.List<org.remus.marketplace.entities.«((EClass)getGlobalVar("entity")).name»> result = createCriteria.list();
+	 if (result.size() == 1) {
+	 	return result.get(0);
+	 } else if (result.size() > 1) {
+	 	throw new IllegalArgumentException("Find returned more than one Result...");
+	 }
+	 return null;
+
+}
+«addInterfaceName("public " +((EClass)getGlobalVar("entity")).name+" findBy"+name.firstToUpper()+"("+eAttributeType.instanceTypeName+" id);")»	
+«ENDIF»
+«ENDDEFINE»
+«DEFINE springFile FOR Daos»
+«FILE "spring/genBeanContext.xml"»<?xml version="1.0" encoding="UTF-8"?>
+<!-- THIS IS GENERATED XML. DO NOT EDIT ANY CONTENT!!!! -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+       default-autowire="byType">
+«FOREACH daoCollection AS e1»
+	<bean id="«e1.entityClass.name.toLowerCase()»Bean" class="org.remus.marketplace.dao.impl.gen.«e1.entityClass.name»DaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>	
+«ENDFOREACH»
+</beans>
+«ENDFILE»
+«ENDDEFINE»

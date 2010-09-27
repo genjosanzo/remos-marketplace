@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     20.07.2010 13:24:52                                                        
+
+     project    
+     description
+                   
+     tom                                                                
+     ====================================================================== -->
+<project name="generator-preprocessing" default="default" basedir="../../">
+	<property name="src-gen" location="src-gen"/>
+
+    <description>
+            Operations required before a generation can be triggered.
+    </description>
+
+    <!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="default" >
+        <delete includeemptydirs="true">
+			<fileset dir="${src-gen}" includes="**/*" >
+			</fileset>
+		</delete>
+    </target>
+
+    
+</project>

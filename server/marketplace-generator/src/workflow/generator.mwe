@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<workflow>
+	<property name="model" value="marketplace-generator/src/metametamodel/EntityDefinition.ecore" />
+	<property name="daomodel" value="marketplace-generator/src/metametamodel/DaoDefinition.xmi" />
+	<property name="src-gen" value="src-gen" />
+	
+	<!-- set up EMF for standalone execution -->
+	<bean class="org.eclipse.emf.mwe.utils.StandaloneSetup" >
+		<platformUri value=".."/>
+	</bean>
+	
+	<!-- instantiate metamodel -->
+	<bean id="mm_emf" class="org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel"/>
+	<bean id="mm_dao" class="org.eclipse.xtend.typesystem.emf.EmfRegistryMetaModel"/>
+
+	<!-- load model and store it in slot 'model' -->
+	<component class="org.eclipse.emf.mwe.utils.Reader">
+		<uri value="platform:/resource/${model}" />
+		<modelSlot value="model" />
+	</component>
+	<!-- load model and store it in slot 'model' -->
+	<component class="org.eclipse.emf.mwe.utils.Reader">
+		<uri value="platform:/resource/${daomodel}" />
+		<modelSlot value="daomodel" />
+	</component>
+	
+
+	<!-- check model -->
+	<component class="org.eclipse.xtend.check.CheckComponent">
+		<metaModel idRef="mm_emf"/>
+		<checkFile value="metamodel::Checks" />
+		<emfAllChildrenSlot value="model" />
+	</component>
+
+	<!--  generate code -->
+	<component class="org.eclipse.xpand2.Generator">
+		<metaModel idRef="mm_emf"/>
+		<expand
+			value="template::EntitiyGeneration::main FOR model" />
+		<outlet path="${src-gen}" >
+			<postprocessor class="org.eclipse.xpand2.output.JavaBeautifier" />
+		</outlet>
+	</component>
+	<component class="org.eclipse.xpand2.Generator">
+		<metaModel idRef="mm_dao"/>
+		<expand
+			value="template::Dao::main FOR daomodel" />
+		<outlet path="${src-gen}" >
+			<postprocessor class="org.eclipse.xpand2.output.JavaBeautifier" />
+		</outlet>
+	</component>
+</workflow>

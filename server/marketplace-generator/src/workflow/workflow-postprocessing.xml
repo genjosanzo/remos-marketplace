@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     20.07.2010 13:24:52                                                        
+
+     project    
+     description
+                   
+     tom                                                                
+     ====================================================================== -->
+<project name="generator-preprocessing" default="default" basedir="../../..">
+    <description>
+            Executed after a XPAnd Operation
+    </description>
+
+    <!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="default">
+    	<delete includeemptydirs="true" failonerror="false">
+    		<fileset dir="marketplace/entities/org/remus/marketplace/entities" includes="**/*"></fileset>
+    		<fileset dir="marketplace/src/org/remus/marketplace/dao/gen" includes="**/*"></fileset>
+    		<fileset dir="marketplace/src/org/remus/marketplace/dao/impl/gen" includes="**/*"></fileset>
+    		<fileset file="marketplace/resuorces/genBeanContext.xml"></fileset>
+    	</delete>
+        <copydir dest="marketplace/entities/" src="marketplace-generator/src-gen/entities"></copydir>
+        <copydir dest="marketplace/src/" src="marketplace-generator/src-gen/dao"></copydir>
+        <copyfile dest="marketplace/resources/genBeanContext.xml" src="marketplace-generator/src-gen/spring/genBeanContext.xml"/>
+        <copyfile dest="marketplace/resources/databaseContext.xml" src="marketplace-generator/src-gen/spring/databaseContext.xml"/>
+    </target>
+
+</project>

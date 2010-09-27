@@ -1,0 +1,41 @@
+String typeName(ecore::EAttribute attribute):
+	JAVA template.Helper.typeName(org.eclipse.emf.ecore.EAttribute);
+String firstToUpper(String str):
+	JAVA template.Helper.firstToUpper(java.lang.String);
+String removeRightChar(String str, int count):
+	JAVA template.Helper.removeRightChar(java.lang.String, java.lang.Integer);
+String annotation2String(ecore::EAnnotation annotation):
+	JAVA template.Helper.annotation2String(org.eclipse.emf.ecore.EAnnotation);
+String jaxbannotation2String(ecore::EAnnotation annotation):
+	JAVA template.Helper.jaxbannotation2String(org.eclipse.emf.ecore.EAnnotation);
+String buildExtends(ecore::EClass clazz):
+	JAVA template.Helper.buildExtends(org.eclipse.emf.ecore.EClass);
+String calculateParameter(List[ecore::EAttribute] attts):
+	JAVA template.Helper.calculateParameter(java.util.List);
+boolean hasFKFunction(ecore::EReference ref):
+	JAVA template.Helper.hasFKFunction(org.eclipse.emf.ecore.EReference);
+String getFKFunctionName(ecore::EReference ref):
+	JAVA template.Helper.getFKFunctionName(org.eclipse.emf.ecore.EReference);
+String getFKFunctionParameter(ecore::EReference ref):
+	JAVA template.Helper.getFKFunctionParameter(org.eclipse.emf.ecore.EReference);
+String getPKColumnFromFKReference(ecore::EReference ref):
+	JAVA template.Helper.getPKColumnFromFKReference(org.eclipse.emf.ecore.EReference);
+boolean targetIsOneToOne(ecore::EReference ref):
+	JAVA template.Helper.targetIsOneToOne(org.eclipse.emf.ecore.EReference);
+String addInterfaceName(String str):
+	JAVA template.Helper.addInterfaceName(java.lang.String);
+String clearInterfaceName():
+	JAVA template.Helper.clearInterfaceName();
+List[String] getInterfaceNames():
+	JAVA template.Helper.getInterfaceNames();
+boolean hasLazyFunction(ecore::EReference ref):
+	JAVA template.Helper.hasLazyFunction(org.eclipse.emf.ecore.EReference);
+ecore::EAttribute getIdAttribute(ecore::EClass clazz):
+	JAVA template.Helper.getIdAttribute(org.eclipse.emf.ecore.EClass);
+boolean isUniqueColumn(ecore::EAttribute att):
+	JAVA template.Helper.isUniqueColumn(org.eclipse.emf.ecore.EAttribute);
+String getTypeIdentifierByReference(String className, String boundClass):
+	JAVA template.Helper.getTypeIdentifierByReference(java.lang.String, java.lang.String);
+String buildValidationConstruct(String className, String property):
+	JAVA template.Helper.buildValidationConstruct(java.lang.String, java.lang.String);
+	

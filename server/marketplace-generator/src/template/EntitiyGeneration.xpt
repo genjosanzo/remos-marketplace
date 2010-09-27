@@ -1,0 +1,228 @@
+«IMPORT ecore»
+
+«EXTENSION template::GeneratorExtensions»
+«EXTENSION metamodel::Extensions»
+«EXTENSION org::eclipse::xtend::util::stdlib::io»
+
+
+«DEFINE main FOR EPackage»
+«IF name == "entities"»
+«EXPAND hibernate FOREACH eClassifiers»
+«FILE "spring/databaseContext.xml"»<?xml version="1.0" encoding="UTF-8"?>
+<!-- THIS IS GENERATED XML. DO NOT EDIT ANY CONTENT!!!! -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd"
+	>
+ 	 <!-- ========================= PERSISTENCE DEFINITIONS ========================= -->
+
+    <!--
+       - Builds a Hibernate SessionFactory and makes it available as bean reference.
+       - All necessary settings get specified here, without relying on an external
+       - Hibernate config file like "WEB-INF/classes/hibernate.cfg.xml".
+       -
+       - The SessionFactory will use the locally defined DataSource in this context.
+       - This allows for convenient sharing of transactions with plain JDBC access
+       - code, if HibernateTransactionManager is explictly given the same DataSource.
+       -
+       - This definition could also use a JDBC DataSource specified via Hibernate
+       - properties. Note that to be able to share transactions with plain JDBC access
+       - code then, that DataSource would need to be a JNDI one that should match the
+       - one given to HibernateTransactionManager and data access objects.
+       -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="annotatedClasses">
+        <list>
+        «FOREACH eClassifiers AS e»«IF e.metaType == EClass && !((EClass)e).abstract»
+        	<value>org.remus.marketplace.entities.«e.name»</value>«ENDIF»«ENDFOREACH»
+        </list>
+        </property>
+        <property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					${hibernate.dialect}
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.jdbc.batch_size">0</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.cache.use_second_level_cache">
+					false
+				</prop>
+				<!--prop key="hibernate.cache.use_second_level_cache">true</prop-->
+				<prop key="hibernate.cache.use_query_cache">false</prop>
+				<!--prop key="hibernate.cache.use_query_cache">true</prop-->
+				<prop key="hibernate.cache.provider_class">
+					net.sf.ehcache.hibernate.SingletonEhCacheProvider
+				</prop>
+			</props>
+		</property>
+    </bean>
+	<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${db.driver_class}" />
+		<property name="jdbcUrl" value="${db.url}" />
+		<property name="user" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean>
+
+    <bean id="hibernateSupport" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:jdbc.properties" />
+	</bean>
+
+    
+</beans>
+
+«ENDFILE»
+
+«ENDIF»
+«ENDDEFINE»
+
+
+
+«DEFINE hibernate FOR EClassifier»
+	«IF metaType == EClass && !((EClass)this).abstract»
+		«FILE "entities/org/remus/marketplace/entities/" +name+".java"»
+/*******************************************************************************
+ * Copyright (c) 2010 Tom Seidel, Remus Software
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ *
+ * Contributors:
+ *     Tom Seidel - initial API and implementation
+ *******************************************************************************/
+package org.remus.marketplace.entities;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Version;
+
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.hibernate.Hibernate;
+
+/**
+ * This is a generated class. DO NOT MODIFY THE CONTENT!!
+ * @author Tom Seidel <tom.seidel@remus-software.org>
+ */
+@javax.persistence.Entity
+«EXPAND annot FOREACH eAnnotations»	
+«EXPAND jaxbannotRef FOREACH eAnnotations»	
+public class «name» «buildExtends(this)»implements Serializable {
+	«EXPAND props FOREACH eContents»
+	«IF ((EClass)this).eAllSuperTypes.size == 0»
+	@javax.persistence.Version
+	@javax.persistence.Column(name = "OPTLOCK")
+	private Integer version;
+	
+	@javax.xml.bind.annotation.XmlTransient
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+	«EXPAND equalsAndHashCode FOR (EClass)this»
+	«ENDIF»
+
+}
+	«ENDFILE»
+	«ENDIF»
+
+«ENDDEFINE»
+
+«DEFINE props FOR emf::EObject»
+«IF metaType == EAttribute»
+	public static final String «name.toUpperCase()» = "«name»";
+	«IF ((EAttribute)this).lowerBound > 0» 
+	@javax.persistence.Basic(optional = false)
+	«ENDIF»
+	«EXPAND annot FOREACH ((EAttribute)this).eAnnotations»	
+	private «((EAttribute)this).eAttributeType.instanceTypeName == "int" ? "Integer" : (((EAttribute)this).eAttributeType.instanceTypeName == "float" ? "Float" : ((EAttribute)this).eAttributeType.instanceTypeName)» «((ecore::EAttribute)this).name »;
+	
+	«EXPAND jaxbannotRef FOREACH eAnnotations»
+	public «((EAttribute)this).eAttributeType.instanceTypeName == "int" ? "Integer" : (((EAttribute)this).eAttributeType.instanceTypeName == "float" ? "Float" : ((EAttribute)this).eAttributeType.instanceTypeName)» get«firstToUpper(((ecore::EAttribute)this).name)»() {
+		return this.«((ecore::EAttribute)this).name»;
+	}
+	public void set«firstToUpper(((ecore::EAttribute)this).name)»(«((EAttribute)this).eAttributeType.instanceTypeName == "int" ? "Integer" : (((EAttribute)this).eAttributeType.instanceTypeName == "float" ? "Float" : ((EAttribute)this).eAttributeType.instanceTypeName)» «((ecore::EAttribute)this).name») {
+		this.«((ecore::EAttribute)this).name» = «((ecore::EAttribute)this).name»;
+	}
+«ENDIF»
+«IF metaType == EReference»
+	«EXPAND ref FOR ((EReference)this)»
+«ENDIF»
+«ENDDEFINE»
+«DEFINE annot FOR EAnnotation»
+	«annotation2String(this)»
+«ENDDEFINE»
+«DEFINE annotRef FOR EAnnotation»
+	«annotation2String(this)»
+«ENDDEFINE»
+«DEFINE jaxbannotRef FOR EAnnotation»
+	«jaxbannotation2String(this)»
+«ENDDEFINE»
+«DEFINE ref FOR EReference»
+	public static final String «name.toUpperCase()» = "«name»";
+	«EXPAND annotRef FOREACH eAnnotations»
+	«IF upperBound == 1»
+	private «eType.name» «name»;
+	«EXPAND jaxbannotRef FOREACH eAnnotations»
+	public «eType.name» get«firstToUpper(name)»() {
+		return this.«name»;
+	}
+	public void set«firstToUpper(name)»(«eType.name» «name») {
+		this.«name» = «name»;
+	}
+	«ELSE»
+	private java.util.Set<«eType.name»> «name» = new java.util.HashSet<«eType.name»>();
+	«EXPAND jaxbannotRef FOREACH eAnnotations»
+	public java.util.Set<«eType.name»> get«firstToUpper(name)»() {
+		return this.«name»;
+	}
+	public void set«firstToUpper(name)»(java.util.Set<«eType.name»> «name») {
+		this.«name» = «name»;
+	}
+	«ENDIF»
+	
+«ENDDEFINE»
+«DEFINE equalsAndHashCode FOR EClass»
+	public boolean equals(final Object other) {
+		if (this == other) {
+	      return true;
+	    }
+	    if (other == null
+	        || // looks into the target class of a proxy if necessary
+	        !Hibernate.getClass(other).equals(Hibernate.getClass(this))) {
+	      return false;
+	    }
+	    // if pks are both set, compare
+	    if (getId() != null) {
+	      Serializable otherPk = ((«name»)other).getId();
+	      if (otherPk != null) {
+	        return getId().equals(otherPk);
+	      }
+	    }
+	    return false;
+	}
+	
+	public int hashCode() {
+		HashCodeBuilder builder = new HashCodeBuilder();
+		builder.append(getId());
+		return builder.toHashCode(); 
+	}
+«ENDDEFINE»
+
