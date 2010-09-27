@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+       default-autowire="byType">
+       
+    <bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:application.properties" />
+	</bean>
+	
+	<import resource="databaseContext.xml"/>
+	<import resource="transactionContext.xml"/>
+	<import resource="genBeanContext.xml"/>
+	
+	
+	
+	<bean id="marketAndCategoryServlet" class="org.remus.marketplace.servlets.MarketAndCateogriesListing">
+        <property name="marketDao" ref="marketBean" />
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="categoryServlet" class="org.remus.marketplace.servlets.CategoryListing">
+        <property name="categoryDao" ref="categoryBean" />
+        <property name="marketDao" ref="marketBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="contentServlet" class="org.remus.marketplace.servlets.ContentListing">
+        <property name="categoryDao" ref="categoryBean" />
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="downloadDao" ref="downloadBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="featuredServlet" class="org.remus.marketplace.servlets.FeaturedListing">
+        <property name="categoryDao" ref="categoryBean" />
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="recentServlet" class="org.remus.marketplace.servlets.RecentListing">
+        <property name="categoryDao" ref="categoryBean" />
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="popularServlet" class="org.remus.marketplace.servlets.PopularListing">
+        <property name="categoryDao" ref="categoryBean" />
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="searchServlet" class="org.remus.marketplace.servlets.SearchListing">
+        <property name="indexService" ref="indexService"></property>
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+    
+	
+
+</beans>

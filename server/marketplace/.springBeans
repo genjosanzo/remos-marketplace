@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.3.3.201007142200-CI-R3804-B803]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>resources/transactionContext.xml</config>
+		<config>resources/databaseContext.xml</config>
+		<config>resources/genBeanContext.xml</config>
+		<config>WebContent/WEB-INF/springapp-servlet.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[marketplace]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>resources/applicationContext.xml</config>
+				<config>resources/databaseContext.xml</config>
+				<config>resources/genBeanContext.xml</config>
+				<config>resources/transactionContext.xml</config>
+				<config>WebContent/WEB-INF/springapp-servlet.xml</config>
+			</configs>
+		</configSet>
+	</configSets>
+</beansProjectDescription>

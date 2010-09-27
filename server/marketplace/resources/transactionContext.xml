@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-init-method="init" default-destroy-method="destroy" 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+	   
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+	<!-- deklarative Transaktion -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">  
+		<tx:attributes>
+			<tx:method name="find*" read-only="true" propagation="REQUIRED"/>
+			<tx:method name="select*" read-only="true" propagation="REQUIRED"/>
+			<tx:method name="*" propagation="REQUIRED"/> 
+		</tx:attributes>
+	</tx:advice>
+
+	
+	<!-- deklarative Transaktion fuer DAOs: fuer die Webanwendung erforderlich -->
+	
+	<aop:config>
+		<aop:pointcut id="daoMethods" expression="execution(* org.remus.marketplace.dao.gen.*Dao.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="daoMethods"/>
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="getMethods" expression="execution(* org.remus.marketplace.servlets.*.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="getMethods"/>
+	</aop:config>
+
+	<!-- AOP-Beispiel mit Annotations: die untere Zeile muss für annotierte Tests uncommented werden -->
+	<aop:aspectj-autoproxy/>
+	
+	<!-- AOP-Beispiel mit XML (ohne Annotations) -->
+	<!-- Zum Testen "aop:aspectj-autoproxy" auskommentieren und den unteren Kommentar rausnehmen -->
+<!--
+	<aop:config>	
+		<aop:aspect id="stockAspect" ref="stockService">
+			<aop:pointcut id="stockServicePc" expression="execution(* de.hanser.buch.opiz.dao.*Order*.saveOrder(de.hanser.buch.opiz.domain.Order))"/>
+			<aop:before method="prepareStockForOrder" pointcut-ref="stockServicePc" />
+			<aop:after method="reduceStock" pointcut="execution(* de.hanser.buch.opiz.dao.*Order*.saveOrder(de.hanser.buch.opiz.domain.Order))"/>
+			<aop:after-throwing method="doFailOver" pointcut="execution(* de.hanser.buch.opiz.dao.OrderDao.saveOrder(..))"/>
+			<aop:after method="countOrders" pointcut-ref="stockServicePc" />
+			<aop:around method="doTimer" pointcut-ref="stockServicePc" />
+		</aop:aspect>
+	</aop:config>
+-->
+
+	<!-- AOP-Praxisbeispiel: Logging -->
+<!--
+	<aop:config>	
+		<aop:aspect id="loggingAspect" ref="loggingService">
+			<aop:pointcut id="techLogPc" expression="execution(* de.hanser.buch.opiz.dao.*Dao*.*(..))"/>
+			<aop:after-throwing method="logTechnical" pointcut="execution(* techLogPc(..))" throwing="ex" />
+		</aop:aspect>
+	</aop:config>
+
+		<aop:config>
+		<aop:aspect id="countAgeCalls" ref="countingAdvice">
+			<aop:after-throwing
+			     pointcut="execution(int getAge(..))" 
+				 method="myAfterThrowingAdvice" 
+				 throwing="ex"/>
+		</aop:aspect>
+
+	</aop:config>
+-->
+
+<!--
+	<bean name="loggingService" class="de.hanser.buch.opiz.service.LoggingService">
+	</bean>
+-->
+
+	<bean name="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="transactionManager"/>
+	</bean>
+	
+	<!-- DebugIntercepter von Spring -->
+	<!-- this gets in the way of a test of pizzaDao.update, since it's calling toString on pizza
+	<bean id="debugInterceptor" class="org.springframework.aop.interceptor.DebugInterceptor"/>
+	<aop:config>
+		<aop:pointcut id="debugPointcut" expression="execution(* de.hanser.buch.opiz.dao.*Dao*.*(..))"/>
+		<aop:advisor advice-ref="debugInterceptor" pointcut-ref="debugPointcut"/>
+	</aop:config>
+	-->
+</beans>
