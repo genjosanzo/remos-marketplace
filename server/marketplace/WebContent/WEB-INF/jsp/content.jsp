@@ -18,7 +18,7 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Emporium by Free Css Templates</title>
+<title>${node.name}</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="../default.css" rel="stylesheet" type="text/css" />
