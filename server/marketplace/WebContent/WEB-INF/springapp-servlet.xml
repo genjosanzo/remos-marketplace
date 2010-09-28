@@ -12,12 +12,24 @@
   	 <property name="nodeDao" ref="nodeBean" />
   	 <property name="clickthroughDao" ref="clickthroughBean"></property>
   </bean>
+  <bean name="/index.htm" class="org.remus.marketplace.controller.IndexController">
+  	<property name="serverPrefix" value="${server.prefix}"></property>
+  	 <property name="nodeDao" ref="nodeBean" />
+  </bean>
+  <bean name="/search.htm" class="org.remus.marketplace.controller.SearchController">
+  	<property name="serverPrefix" value="${server.prefix}"></property>
+  	 <property name="nodeDao" ref="nodeBean" />
+  	 <property name="indexService" ref="indexService"></property>
+  </bean>
   
    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
         <property name="prefix" value="/WEB-INF/jsp/"></property>
         <property name="suffix" value=".jsp"></property>        
     </bean>
-  
+   <bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:application.properties" />
+	</bean>
 
 </beans>

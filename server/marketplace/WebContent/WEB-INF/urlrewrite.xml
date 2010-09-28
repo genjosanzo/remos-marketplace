@@ -23,6 +23,7 @@
         <from>/taxonomy/term/([0-9a-z]+),([0-9]+)/api/p</from>
         <to>/CategoryListing?marketId=$1&amp;categoryId=$2</to>
     </rule>
+	
 	<rule>
         <from>category/markets/([0-9a-z]+)/api/p</from>
         <to>/CategoryListing?marketId=$1</to>

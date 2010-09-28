@@ -21,16 +21,16 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 <title>Emporium by Free Css Templates</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
-<link href="../default.css" rel="stylesheet" type="text/css" />
+<link href="default.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div id="wrapper">
 <!-- start header -->
 <div id="logo">
-	<h1><a href="#">Remus Marketplace </a></h1>
-	<h2> &raquo;&nbsp;&nbsp;&nbsp;<c:out value="${node.name}"></c:out></h2>
+	<h1><a href="/marketplace">Remus Marketplace </a></h1>
+	<h2> &raquo;&nbsp;&nbsp;&nbsp;Search</h2>
 </div>
-<jsp:include page="includes/header.html"/>
+<jsp:include page="includes/header.html"/>' 
 <!-- end header -->
 </div>
 <!-- start page -->
@@ -38,24 +38,14 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 	<!-- start content -->
 	<div id="content">
 		<div class="post">
-			<h1 class="title"><c:out value="${node.name}"></c:out></h1>
+			<h1 class="title">Search results for: <c:out value="${query}"></c:out></h1>
+			<c:forEach var="item" items="${node}">
 			<div class="entry">
-				<img style="float: left; padding:5px;" src="${node.image}" width="110" height="80"></img>
-				<p>${node.body}</p>
+				<img style="float: left; padding:5px;" src="${item.image}" width="110" height="80"></img>
+				<h3><a href="${item.url}">${item.name}</a></h3>
+				<p>${item.shortdescription}</p>
 			</div>
-			<c:if test="${node.screenshot != null}">
-			<div class="entry">
-				<h3>Screenshot</h3>
-				<img src="${node.screenshot}" alt="" />
-			</div>
-			</c:if>
-			<div class="entry">
-				<h3>Additional details</h3>
-				
-			</div>
-			<div class="meta">
-				<p class="links"><a href="<c:out value="${node.supporturl}"></c:out>" class="more">Support</a> <b>|</b> <a href="#" class="comments">Comments (32)</a></p>
-			</div>
+			</c:forEach>
 		</div>
 	</div>
 	<!-- end content -->

@@ -43,7 +43,7 @@ http://www.springframework.org/schema/jee http://www.springframework.org/schema/
 				<prop key="hibernate.dialect">
 					${hibernate.dialect}
 				</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.auto">validate</prop>
 				<prop key="hibernate.jdbc.batch_size">0</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>
