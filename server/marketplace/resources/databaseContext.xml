@@ -25,6 +25,7 @@ http://www.springframework.org/schema/jee http://www.springframework.org/schema/
        -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
+        <property name="entityInterceptor" ref="nodeInterceptor"></property>
         <property name="annotatedClasses">
         <list>
         
@@ -70,12 +71,15 @@ http://www.springframework.org/schema/jee http://www.springframework.org/schema/
     <bean id="hibernateSupport" class="org.springframework.orm.hibernate3.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+     <bean id="nodeInterceptor" class="org.remus.marketplace.indexing.NodeIndexListener">
+    	<property name="indexService" ref="indexService"></property>
+    </bean>
     
-    <bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:jdbc.properties" />
-	</bean>
-
+    <bean id="indexService" class="org.remus.marketplace.indexing.impl.IndexServiceImpl">
+    	<property name="indexDir" value="${lucene.index.dir}"></property>
+    	
+    </bean>
+    
     
 </beans>
 
