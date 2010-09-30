@@ -12,6 +12,7 @@
 	<import resource="databaseContext.xml"/>
 	<import resource="transactionContext.xml"/>
 	<import resource="genBeanContext.xml"/>
+	<import resource="dwrContext.xml"/>
 	
 	
 	

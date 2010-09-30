@@ -2,31 +2,60 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.directwebremoting.org/schema/spring-dwr
+       http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd"
+       >
+       
+   <dwr:configuration>
+   	<dwr:convert type="bean" class="org.remus.marketplace.entities.Market"></dwr:convert>
+   </dwr:configuration>
+  <dwr:controller id="dwrController"/>
+  
 
   <!-- the application context definition for the springapp DispatcherServlet -->
 
-  <bean name="/content.htm" class="org.remus.marketplace.controller.ContentController">
+  <bean id="contentController" name="/content.htm" class="org.remus.marketplace.controller.ContentController">
   	<property name="serverPrefix" value="${server.prefix}"></property>
   	 <property name="nodeDao" ref="nodeBean" />
   	 <property name="clickthroughDao" ref="clickthroughBean"></property>
   </bean>
-  <bean name="/index.htm" class="org.remus.marketplace.controller.IndexController">
+  <bean id="indexController" class="org.remus.marketplace.controller.IndexController">
   	<property name="serverPrefix" value="${server.prefix}"></property>
   	 <property name="nodeDao" ref="nodeBean" />
   </bean>
-  <bean name="/search.htm" class="org.remus.marketplace.controller.SearchController">
+  <bean id="searchController" class="org.remus.marketplace.controller.SearchController">
   	<property name="serverPrefix" value="${server.prefix}"></property>
   	 <property name="nodeDao" ref="nodeBean" />
   	 <property name="indexService" ref="indexService"></property>
   </bean>
   
+  <bean id="adminMarketsController"  class="org.remus.marketplace.controller.admin.MarketAdminController">
+  	<property name="serverPrefix" value="${server.prefix}"></property>
+  	 <property name="marketDao" ref="marketBean" />
+  </bean>
+  
    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
         <property name="prefix" value="/WEB-INF/jsp/"></property>
-        <property name="suffix" value=".jsp"></property>        
+        <property name="suffix" value=".jsp"></property>
     </bean>
+  
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+   <property name="mappings">
+      <value>
+      /engine.js=dwrController
+      /util.js=dwrController
+      /interface/**=dwrController
+      /call/**=dwrController
+      /call/**=dwrController
+      index.htm=indexController
+      /admin/markets.htm=adminMarketsController
+      search.htm=searchController
+      </value>
+   </property>
+</bean>
+  
    <bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:application.properties" />

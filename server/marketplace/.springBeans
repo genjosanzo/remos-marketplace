@@ -11,6 +11,7 @@
 		<config>resources/databaseContext.xml</config>
 		<config>resources/genBeanContext.xml</config>
 		<config>WebContent/WEB-INF/springapp-servlet.xml</config>
+		<config>resources/dwrContext.xml</config>
 	</configs>
 	<configSets>
 		<configSet>
