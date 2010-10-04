@@ -56,7 +56,7 @@ public class AdminFilter implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}
-		response.sendRedirect(request.getContextPath() + "/login.html");
+		response.sendRedirect(request.getContextPath() + "/login.htm");
 
 	}
 

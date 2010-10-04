@@ -24,32 +24,19 @@ import org.hibernate.Hibernate;
  * @author Tom Seidel <tom.seidel@remus-software.org>
  */
 @javax.persistence.Entity
-public class Category implements Serializable {
-
-	public static final String NODES = "nodes";
-
-	@javax.persistence.ManyToMany(cascade = {
-			javax.persistence.CascadeType.PERSIST,
-			javax.persistence.CascadeType.MERGE}, fetch = javax.persistence.FetchType.LAZY)
-	private java.util.Set<Node> nodes = new java.util.HashSet<Node>();
-
-	public java.util.Set<Node> getNodes() {
-		return this.nodes;
-	}
-	public void setNodes(java.util.Set<Node> nodes) {
-		this.nodes = nodes;
-	}
+public class Market implements Serializable {
 
 	public static final String ID = "id";
 
 	@javax.persistence.Id
-	@javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.AUTO)
-	private Integer id;
+	@org.hibernate.annotations.GenericGenerator(name = "uuid", strategy = "uuid")
+	@javax.persistence.GeneratedValue(generator = "uuid")
+	private java.lang.String id;
 
-	public Integer getId() {
+	public java.lang.String getId() {
 		return this.id;
 	}
-	public void setId(Integer id) {
+	public void setId(java.lang.String id) {
 		this.id = id;
 	}
 
@@ -75,16 +62,16 @@ public class Category implements Serializable {
 		this.url = url;
 	}
 
-	public static final String MARKET = "market";
+	public static final String CATEGORIES = "categories";
 
-	@javax.persistence.ManyToOne
-	private Market market;
+	@javax.persistence.OneToMany(cascade = javax.persistence.CascadeType.ALL, fetch = javax.persistence.FetchType.LAZY, mappedBy = "market")
+	private java.util.Set<Category> categories = new java.util.HashSet<Category>();
 
-	public Market getMarket() {
-		return this.market;
+	public java.util.Set<Category> getCategories() {
+		return this.categories;
 	}
-	public void setMarket(Market market) {
-		this.market = market;
+	public void setCategories(java.util.Set<Category> categories) {
+		this.categories = categories;
 	}
 
 	@javax.persistence.Version
@@ -110,7 +97,7 @@ public class Category implements Serializable {
 		}
 		// if pks are both set, compare
 		if (getId() != null) {
-			Serializable otherPk = ((Category) other).getId();
+			Serializable otherPk = ((Market) other).getId();
 			if (otherPk != null) {
 				return getId().equals(otherPk);
 			}

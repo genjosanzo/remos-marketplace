@@ -112,8 +112,14 @@ public class AdvancedCriteria {
 				throw new IllegalArgumentException(
 						"Assosiation Path must not be null");
 			}
-			final Criteria createCriteria = criteria.createCriteria(
-					subCriterias.assosication, subCriterias.join);
+			final Criteria createCriteria;
+			if (subCriterias.join >= 0) {
+				createCriteria = criteria.createCriteria(
+						subCriterias.assosication, subCriterias.join);
+			} else {
+				createCriteria = criteria
+						.createCriteria(subCriterias.assosication);
+			}
 			subCriterias.add2Criterion(createCriteria, enablePaging);
 		}
 

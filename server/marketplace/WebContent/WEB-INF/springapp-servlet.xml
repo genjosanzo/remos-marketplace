@@ -15,7 +15,7 @@
 
   <!-- the application context definition for the springapp DispatcherServlet -->
 
-  <bean id="contentController" name="/content.htm" class="org.remus.marketplace.controller.ContentController">
+  <bean id="contentController" class="org.remus.marketplace.controller.ContentController">
   	<property name="serverPrefix" value="${server.prefix}"></property>
   	 <property name="nodeDao" ref="nodeBean" />
   	 <property name="clickthroughDao" ref="clickthroughBean"></property>
@@ -32,8 +32,51 @@
   
   <bean id="adminMarketsController"  class="org.remus.marketplace.controller.admin.MarketAdminController">
   	<property name="serverPrefix" value="${server.prefix}"></property>
+  	<property name="nodeDao" ref="nodeBean"></property>
+  	<property name="categoryDao" ref="categoryBean"></property>
   	 <property name="marketDao" ref="marketBean" />
+  	 <property name="platformDao" ref="platformBean"></property>
   </bean>
+  
+  <bean id="adminCategoryController"  class="org.remus.marketplace.controller.admin.CategoryAdminController">
+  	<property name="serverPrefix" value="${server.prefix}"></property>
+  	 <property name="categoryDao" ref="categoryBean" />
+  	 <property name="formView" value="admin/category"/>
+  	 <property name="nodeDao" ref="nodeBean"></property>
+  	  <property name="commandName" value="setSolutions"/>
+  <!-- accessing data object -->
+  <property name="commandClass" value="org.remus.marketplace.form.AddSolutionForm"/>
+  </bean>
+  <bean id="adminNodeController" class="org.remus.marketplace.controller.admin.NodeAdminController">
+  	<property name="nodeDao" ref="nodeBean"></property>
+  	<property name="platformDao" ref="platformBean"></property>
+  	<property name="formView" value="admin/node"></property>
+  	<property name="installableUnitDao" ref="installableunitBean"></property>
+  	<property name="commandName" value="editSolution"></property>
+  	<property name="commandClass" value="org.remus.marketplace.entities.Node"></property>
+  
+  </bean>
+  
+  <bean id="loginFormValidator" class="org.remus.marketplace.form.validator.LoginFormValidator">
+  	<property name="password" value="${admin.password}"></property>
+  	<property name="userName" value="${admin.user}"></property>
+  </bean>
+  
+  
+  
+  <bean id="loginFormController" class="org.remus.marketplace.controller.LoginFormController">
+  <property name="validator" ref="loginFormValidator"/>
+  <property name="formView" value="login"/>
+  <!-- jump page, defined at urlMapping bean -->
+  <property name="successView" value="/admin/markets.htm"/>
+  <!-- alias name for command data object for accessing at the jsp page -->
+  <property name="commandName" value="loginData"/>
+  <!-- accessing data object -->
+  <property name="commandClass" value="org.remus.marketplace.form.LoginFormData"/>
+</bean>
+
+ 
+  
   
    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
@@ -51,7 +94,11 @@
       /call/**=dwrController
       index.htm=indexController
       /admin/markets.htm=adminMarketsController
+      /admin/category.htm=adminCategoryController
       search.htm=searchController
+      login.htm=loginFormController
+      content.htm=contentController
+      /admin/node.htm=adminNodeController
       </value>
    </property>
 </bean>

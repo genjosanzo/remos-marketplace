@@ -60,8 +60,12 @@ public class SearchController implements Controller {
 	public ModelAndView handleRequest(HttpServletRequest arg0,
 			HttpServletResponse arg1) throws Exception {
 		String parameter = arg0.getParameter("query");
-		List<Integer> searchNodes = indexService
-				.searchNodes(parameter, 0, null);
+		List<Integer> searchNodes = new ArrayList<Integer>();
+		try {
+			searchNodes = indexService.searchNodes(parameter, 0, null);
+		} catch (Exception e) {
+			// do nothing
+		}
 		List<Node> returnNodes = new ArrayList<Node>();
 		for (Integer integer : searchNodes) {
 			Node findById = nodeDao.findById(integer);

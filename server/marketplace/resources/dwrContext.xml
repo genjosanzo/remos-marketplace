@@ -21,11 +21,30 @@
  -->       
 <bean id="marketController" class="org.remus.marketplace.dwr.MarketManager">
    <property name="marketDao" ref="marketBean"></property>
+   <property name="categoryDao" ref="categoryBean"></property>
+   <property name="platformDao" ref="platformBean"></property>
+   <property name="nodeDao" ref="nodeBean"></property>
+   <property name="installableUnitDao" ref="installableunitBean"></property>
    <dwr:remote javascript="MarketManager">
       <dwr:include method="deleteMarket" />
       <dwr:include method="editMarketName" />
       <dwr:include method="createMarket" />
+      <dwr:include method="createCategory" />
+      <dwr:include method="selectNode" />
+      <dwr:include method="deleteCategory" />
+      <dwr:include method="createPlatform" />
+      <dwr:include method="deletePlatform" />
+      <dwr:include method="createSolution" />
+      <dwr:include method="deleteSolution" />
+      <dwr:include method="createIu" />
+      <dwr:include method="deleteIu" />
       <dwr:convert type="bean" class="org.remus.marketplace.entities.Market"></dwr:convert>
+      <dwr:convert type="bean" class="org.remus.marketplace.entities.Category"></dwr:convert>
+      <dwr:convert type="bean" class="org.remus.marketplace.entities.Node"></dwr:convert>
+      <dwr:convert type="bean" class="org.remus.marketplace.entities.Platform"></dwr:convert>
+      <dwr:convert type="bean" class="org.remus.marketplace.entities.InstallableUnit"></dwr:convert>
+      <dwr:convert type="exception" class="java.lang.Exception" />
+      
    </dwr:remote>
 </bean>
 

@@ -319,6 +319,19 @@ input, textarea, select {
 	margin-bottom: 20px;
 }
 
+.adminForm {
+	width: 140px;
+	margin-right: 5px;
+	padding: 3px;
+	border: 1px solid #DFE1E0;
+}
+.nodeForm {
+	width: 440px;
+	margin-right: 5px;
+	padding: 3px;
+	border: 1px solid #DFE1E0;
+}
+
 #s {
 	width: 140px;
 	margin-right: 5px;

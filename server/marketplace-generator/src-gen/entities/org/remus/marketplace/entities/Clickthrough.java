@@ -24,21 +24,7 @@ import org.hibernate.Hibernate;
  * @author Tom Seidel <tom.seidel@remus-software.org>
  */
 @javax.persistence.Entity
-public class Category implements Serializable {
-
-	public static final String NODES = "nodes";
-
-	@javax.persistence.ManyToMany(cascade = {
-			javax.persistence.CascadeType.PERSIST,
-			javax.persistence.CascadeType.MERGE}, fetch = javax.persistence.FetchType.LAZY)
-	private java.util.Set<Node> nodes = new java.util.HashSet<Node>();
-
-	public java.util.Set<Node> getNodes() {
-		return this.nodes;
-	}
-	public void setNodes(java.util.Set<Node> nodes) {
-		this.nodes = nodes;
-	}
+public class Clickthrough implements Serializable {
 
 	public static final String ID = "id";
 
@@ -53,38 +39,28 @@ public class Category implements Serializable {
 		this.id = id;
 	}
 
-	public static final String NAME = "name";
+	public static final String TIME = "time";
 
-	private java.lang.String name;
+	@javax.persistence.Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private java.util.Date time;
 
-	public java.lang.String getName() {
-		return this.name;
+	public java.util.Date getTime() {
+		return this.time;
 	}
-	public void setName(java.lang.String name) {
-		this.name = name;
-	}
-
-	public static final String URL = "url";
-
-	private java.lang.String url;
-
-	public java.lang.String getUrl() {
-		return this.url;
-	}
-	public void setUrl(java.lang.String url) {
-		this.url = url;
+	public void setTime(java.util.Date time) {
+		this.time = time;
 	}
 
-	public static final String MARKET = "market";
+	public static final String NODE = "node";
 
 	@javax.persistence.ManyToOne
-	private Market market;
+	private Node node;
 
-	public Market getMarket() {
-		return this.market;
+	public Node getNode() {
+		return this.node;
 	}
-	public void setMarket(Market market) {
-		this.market = market;
+	public void setNode(Node node) {
+		this.node = node;
 	}
 
 	@javax.persistence.Version
@@ -110,7 +86,7 @@ public class Category implements Serializable {
 		}
 		// if pks are both set, compare
 		if (getId() != null) {
-			Serializable otherPk = ((Category) other).getId();
+			Serializable otherPk = ((Clickthrough) other).getId();
 			if (otherPk != null) {
 				return getId().equals(otherPk);
 			}

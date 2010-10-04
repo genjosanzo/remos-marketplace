@@ -18,4 +18,7 @@
   <daoCollection>
     <entityClass href="EntityDefinition.ecore#//Download"/>
   </daoCollection>
+  <daoCollection>
+    <entityClass href="EntityDefinition.ecore#//InstallableUnit"/>
+  </daoCollection>
 </daos:Daos>

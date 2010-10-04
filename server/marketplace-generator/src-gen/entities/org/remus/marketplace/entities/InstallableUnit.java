@@ -24,21 +24,7 @@ import org.hibernate.Hibernate;
  * @author Tom Seidel <tom.seidel@remus-software.org>
  */
 @javax.persistence.Entity
-public class Category implements Serializable {
-
-	public static final String NODES = "nodes";
-
-	@javax.persistence.ManyToMany(cascade = {
-			javax.persistence.CascadeType.PERSIST,
-			javax.persistence.CascadeType.MERGE}, fetch = javax.persistence.FetchType.LAZY)
-	private java.util.Set<Node> nodes = new java.util.HashSet<Node>();
-
-	public java.util.Set<Node> getNodes() {
-		return this.nodes;
-	}
-	public void setNodes(java.util.Set<Node> nodes) {
-		this.nodes = nodes;
-	}
+public class InstallableUnit implements Serializable {
 
 	public static final String ID = "id";
 
@@ -64,27 +50,16 @@ public class Category implements Serializable {
 		this.name = name;
 	}
 
-	public static final String URL = "url";
-
-	private java.lang.String url;
-
-	public java.lang.String getUrl() {
-		return this.url;
-	}
-	public void setUrl(java.lang.String url) {
-		this.url = url;
-	}
-
-	public static final String MARKET = "market";
+	public static final String NODE = "node";
 
 	@javax.persistence.ManyToOne
-	private Market market;
+	private Node node;
 
-	public Market getMarket() {
-		return this.market;
+	public Node getNode() {
+		return this.node;
 	}
-	public void setMarket(Market market) {
-		this.market = market;
+	public void setNode(Node node) {
+		this.node = node;
 	}
 
 	@javax.persistence.Version
@@ -110,7 +85,7 @@ public class Category implements Serializable {
 		}
 		// if pks are both set, compare
 		if (getId() != null) {
-			Serializable otherPk = ((Category) other).getId();
+			Serializable otherPk = ((InstallableUnit) other).getId();
 			if (otherPk != null) {
 				return getId().equals(otherPk);
 			}
