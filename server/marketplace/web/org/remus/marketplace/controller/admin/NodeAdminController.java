@@ -161,6 +161,7 @@ public class NodeAdminController extends SimpleFormController {
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
 		Node node = (Node) command;
+		node.setChanged((int) (System.currentTimeMillis() / 1000));
 		nodeDao.update(node);
 
 		return new ModelAndView(new RedirectView(node.getId() + ".htm", true));

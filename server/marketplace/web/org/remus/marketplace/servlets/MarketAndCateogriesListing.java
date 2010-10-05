@@ -67,6 +67,7 @@ public class MarketAndCateogriesListing implements HttpRequestHandler {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/xml");
 		try {
 			JAXBContext newInstance = JAXBContext.newInstance(
 					Marketplace.class, org.remus.marketplace.xml.Market.class,

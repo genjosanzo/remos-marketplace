@@ -73,6 +73,7 @@ public class FeaturedListing implements HttpRequestHandler {
 			handleRequest(HttpServletRequest arg0, HttpServletResponse arg1)
 					throws ServletException, IOException {
 		String marketId = arg0.getParameter("marketId");
+		arg1.setContentType("text/xml");
 		int categoryId = 0;
 		try {
 			categoryId = Integer.parseInt(arg0.getParameter("categoryId"));

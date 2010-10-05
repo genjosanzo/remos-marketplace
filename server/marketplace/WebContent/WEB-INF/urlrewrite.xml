@@ -65,6 +65,10 @@
         <to>/ContentListing?nodeId=$1</to>
     </rule>
 	<rule>
+        <from>/node/([0-9]+)/api/p</from>
+        <to>/ContentListing?nodeId=$1</to>
+    </rule>
+	<rule>
         <from>/content/([0-9]+)</from>
         <to>/content.htm?nodeId=$1</to>
     </rule>

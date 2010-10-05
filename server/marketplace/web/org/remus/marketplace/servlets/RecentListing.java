@@ -70,7 +70,7 @@ public class RecentListing implements HttpRequestHandler {
 	public void
 			handleRequest(HttpServletRequest arg0, HttpServletResponse arg1)
 					throws ServletException, IOException {
-
+		arg1.setContentType("text/xml");
 		try {
 			JAXBContext newInstance = JAXBContext.newInstance(
 					Marketplace.class, org.remus.marketplace.xml.Market.class);

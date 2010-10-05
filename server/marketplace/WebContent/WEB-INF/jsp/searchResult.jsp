@@ -27,7 +27,7 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 <div id="wrapper">
 <!-- start header -->
 <div id="logo">
-	<h1><a href="/marketplace">Remus Marketplace </a></h1>
+	<h1><a href="/marketplace">My Eclipse Marketplace </a></h1>
 	<h2> &raquo;&nbsp;&nbsp;&nbsp;Search</h2>
 </div>
 <jsp:include page="includes/header.html"/>' 

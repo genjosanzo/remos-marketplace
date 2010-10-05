@@ -35,7 +35,7 @@ public class Marketplace implements Serializable {
 
 	private Popular popular;
 
-	private Favorite favorite;
+	private Favorite favorites;
 
 	private Search search;
 
@@ -125,16 +125,16 @@ public class Marketplace implements Serializable {
 	/**
 	 * @return the favorite
 	 */
-	public Favorite getFavorite() {
-		return favorite;
+	public Favorite getFavorites() {
+		return favorites;
 	}
 
 	/**
 	 * @param favorite
 	 *            the favorite to set
 	 */
-	public void setFavorite(Favorite favorite) {
-		this.favorite = favorite;
+	public void setFavorites(Favorite favorite) {
+		this.favorites = favorite;
 	}
 
 	/**

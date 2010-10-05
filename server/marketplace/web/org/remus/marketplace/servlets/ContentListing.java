@@ -69,6 +69,7 @@ public class ContentListing implements HttpRequestHandler {
 			handleRequest(HttpServletRequest arg0, HttpServletResponse arg1)
 					throws ServletException, IOException {
 		int contentId = Integer.parseInt(arg0.getParameter("nodeId"));
+		arg1.setContentType("text/xml");
 		try {
 			JAXBContext newInstance = JAXBContext.newInstance(
 					Marketplace.class, org.remus.marketplace.xml.Node.class,

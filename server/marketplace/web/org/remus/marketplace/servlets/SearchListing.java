@@ -71,6 +71,7 @@ public class SearchListing implements HttpRequestHandler {
 					throws ServletException, IOException {
 		String query = arg0.getParameter("query");
 		String parameter = arg0.getParameter("filters");
+		arg1.setContentType("text/xml");
 		int category = 0;
 		String marketId = null;
 		if (parameter != null) {

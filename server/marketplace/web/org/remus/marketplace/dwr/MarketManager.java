@@ -126,6 +126,8 @@ public class MarketManager {
 		}
 		Node node = new Node();
 		node.setName(name);
+		node.setCreated((int) (System.currentTimeMillis() / 1000));
+
 		nodeDao.create(node);
 		return node;
 	}

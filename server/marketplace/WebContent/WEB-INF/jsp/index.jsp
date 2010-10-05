@@ -18,7 +18,7 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Remus Marketplace - Your source of software packages for Remus IM</title>
+<title>My Eclipse Marketplace - Your source of software for your RCP</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="default.css" rel="stylesheet" type="text/css" />
@@ -27,8 +27,8 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 <div id="wrapper">
 <!-- start header -->
 <div id="logo">
-	<h1><a href="#">Remus Marketplace</a></h1>
-	<h2> &raquo;&nbsp;&nbsp;&nbsp;Your source of software packages for Remus IM</h2>
+	<h1><a href="#">My Eclipse Marketplace</a></h1>
+	<h2> &raquo;&nbsp;&nbsp;&nbsp;Your source of software for your RCP</h2>
 </div>
 <jsp:include page="includes/header.html"/>'
 <!-- end header -->
@@ -40,8 +40,9 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 		<div class="post">
 			<h1 class="title">Welcome to our website </h1>
 			<div class="entry">
-				<p>This is Remus marketplace, the platform for components that are installable in the software Remus Information Management. If you want to know more about our software, please visit the <a href="http://remus-software.org">project website</a></p>
-				<p>All provided services are free of charge, we hope you find it useful. Enjoy :)</p>
+				<p>If you can see this you have successfully installed the Marketplace category project. You can change the appearance of the UI in the JSP files under /WEB-INF/jsp/</p>
+				<p>If you want to add content, please use the <a href="admin/">admin interface</a></p>
+				<p>Please visit our <a href="https://sourceforge.net/p/marketplace-cat/home/">project-page.</a> Enjoy :)</p>
 			</div>
 		</div>
 		<div class="post">
