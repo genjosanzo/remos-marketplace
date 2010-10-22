@@ -76,6 +76,9 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 				<td>Owner</td><td><form:input path="owner" cssClass="nodeForm"/><form:errors path="owner"/></td>
 			</tr>
 			<tr>
+				<td>Company</td><td><form:input path="companyname" cssClass="nodeForm"/><form:errors path="companyname"/></td>
+			</tr>
+			<tr>
 				<td>Shortdescription</td><td> <form:textarea path="shortdescription" cssClass="nodeForm"/><form:errors path="shortdescription"/></td>
 			</tr>
 			<tr>
