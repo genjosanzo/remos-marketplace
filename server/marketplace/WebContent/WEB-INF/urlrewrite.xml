@@ -56,6 +56,10 @@
         <from>/api/p/search/apachesolr_search/(.+)</from>
         <to>/SearchListing?query=$1</to>
     </rule>
+    <rule>
+        <from>/images/([0-9a-z]+)/([0-9]+).png</from>
+        <to>/StatisticsServlet?type=$1&amp;nodeId=$2</to>
+    </rule>
 	<rule>
         <from>/featured/([0-9a-z]+),([0-9]+)/api/p</from>
         <to>/FeaturedListing?marketId=$1&amp;categoryId=$2</to>
@@ -67,6 +71,10 @@
 	<rule>
         <from>/node/([0-9]+)/api/p</from>
         <to>/ContentListing?nodeId=$1</to>
+    </rule>
+    <rule>
+        <from>/content/([0-9]+)/success</from>
+        <to>/SuccessfullDownloadServlet?nodeId=$1</to>
     </rule>
 	<rule>
         <from>/content/([0-9]+)</from>

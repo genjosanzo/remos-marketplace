@@ -35,6 +35,10 @@
 		<aop:pointcut id="getMethods" expression="execution(* org.remus.marketplace.servlets.*.*(..))"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="getMethods"/>
 	</aop:config>
+	<aop:config>
+		<aop:pointcut id="scheduling" expression="execution(* org.remus.marketplace.scheduling.*.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="scheduling"/>
+	</aop:config>
 
 	<!-- AOP-Beispiel mit Annotations: die untere Zeile muss für annotierte Tests uncommented werden -->
 	<aop:aspectj-autoproxy/>

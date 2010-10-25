@@ -49,6 +49,12 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 				<img src="${node.screenshot}" alt="" />
 			</div>
 			</c:if>
+			<div class="entry">
+				<h3>Metrics</h3>
+				<p><img src="<c:url value="/images/download/${node.id}.png"></c:url>" width="500" height="300" alt="Download staticstics" /></p>
+				<p><img src="<c:url value="/images/clicks/${node.id}.png"></c:url>" width="500" height="300" alt="Click statistics" /></p>
+			</div>
+			
 			<div class="meta">
 				<p class="links"><a href="<c:out value="${node.supporturl}"></c:out>" class="more">Support</a> <b>|</b> <a href="<c:out value="${node.homepageurl}"></c:out>" class="more">Website</a></p>
 			</div>

@@ -24,7 +24,6 @@ import org.apache.xml.serialize.XMLSerializer;
 import org.remus.marketplace.dao.gen.CategoryDao;
 import org.remus.marketplace.dao.gen.DownloadDao;
 import org.remus.marketplace.dao.gen.NodeDao;
-import org.remus.marketplace.entities.Download;
 import org.remus.marketplace.entities.Node;
 import org.remus.marketplace.xml.IU;
 import org.remus.marketplace.xml.IUs;
@@ -65,9 +64,8 @@ public class ContentListing implements HttpRequestHandler {
 	}
 
 	@Override
-	public void
-			handleRequest(HttpServletRequest arg0, HttpServletResponse arg1)
-					throws ServletException, IOException {
+	public void handleRequest(HttpServletRequest arg0, HttpServletResponse arg1)
+			throws ServletException, IOException {
 		int contentId = Integer.parseInt(arg0.getParameter("nodeId"));
 		arg1.setContentType("text/xml");
 		try {
@@ -86,9 +84,6 @@ public class ContentListing implements HttpRequestHandler {
 						.getOutputStream());
 				createMarshaller.marshal(marketplace,
 						xmlSerializer.asContentHandler());
-				Download download = new Download();
-				download.setNode(findById);
-				downloadDao.create(download);
 			} else {
 				throw new ServletException("Node not found");
 			}

@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.remus.marketplace.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -54,11 +56,19 @@ public class ContentController implements Controller {
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest arg0,
 			HttpServletResponse arg1) throws Exception {
-		int contentId = Integer.parseInt(arg0.getParameter("nodeId"));
-		Node findById = nodeDao.findById(contentId);
-		Clickthrough click = new Clickthrough();
-		click.setNode(findById);
-		clickthroughDao.create(click);
+		Node findById = null;
+		try {
+			int contentId = Integer.parseInt(arg0.getParameter("nodeId"));
+			findById = nodeDao.findById(contentId);
+			if (findById != null) {
+				Clickthrough click = new Clickthrough();
+				click.setNode(findById);
+				click.setTime(new Date());
+				clickthroughDao.create(click);
+			}
+		} catch (Exception e) {
+			// do nothing
+		}
 		return new ModelAndView("content", "node", findById);
 
 	}

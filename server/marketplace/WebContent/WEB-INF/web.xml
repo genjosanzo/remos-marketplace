@@ -110,6 +110,14 @@
         <servlet-name>searchServlet</servlet-name>
         <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
     </servlet>
+  <servlet>
+        <servlet-name>statisticsServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+  <servlet>
+        <servlet-name>successfullDownloadServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
  
   <servlet-mapping>
     <servlet-name>marketAndCategoryServlet</servlet-name>
@@ -138,6 +146,14 @@
   <servlet-mapping>
     <servlet-name>popularServlet</servlet-name>
     <url-pattern>/PopularListing</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>statisticsServlet</servlet-name>
+    <url-pattern>/StatisticsServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>successfullDownloadServlet</servlet-name>
+    <url-pattern>/SuccessfullDownloadServlet</url-pattern>
   </servlet-mapping>
    <servlet>
     <servlet-name>springapp</servlet-name>
