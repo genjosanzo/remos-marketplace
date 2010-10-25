@@ -30,7 +30,7 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 	<h1><a href="#">My Eclipse Marketplace </a></h1>
 	<h2> &raquo;&nbsp;&nbsp;&nbsp;<c:out value="${node.name}"></c:out></h2>
 </div>
-<jsp:include page="includes/header.html"/>
+<jsp:include page="includes/header.jsp"/>
 <!-- end header -->
 </div>
 <!-- start page -->
@@ -43,12 +43,44 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 				<img style="float: left; padding:5px;" src="${node.image}" width="110" height="80"></img>
 				<p>${node.body}</p>
 			</div>
-			<c:if test="${node.screenshot != null}">
+			<c:if test="${not empty node.screenshot}">
 			<div class="entry">
 				<h3>Screenshot</h3>
 				<img src="${node.screenshot}" alt="" />
 			</div>
 			</c:if>
+			<div class="entry">
+				<h3>Additional information</h3>
+				<p>
+			<table border="0">
+			<c:if test="${not empty node.owner }">
+			<tr>
+				<td>Owner</td><td><c:out value="${node.owner}"></c:out></td>
+			</tr>
+			</c:if>
+			<c:if test="${not empty node.companyname }">
+			<tr>
+				<td>Company</td><td><c:out value="${node.companyname}"></c:out></td>
+			</tr>
+			</c:if>
+			<c:if test="${not empty node.homepageurl }">
+			<tr>
+				<td>Homepage</td><td><c:out value="${node.homepageurl}"></c:out></td>
+			</tr>
+			</c:if>
+			<c:if test="${not empty node.license }">
+			<tr>
+				<td>License</td><td><c:out value="${node.license}"></c:out></td>
+			</tr>
+			</c:if>
+			<c:if test="${not empty node.eclipseversion }">
+			<tr>
+				<td>Eclipse Versions</td><td><c:out value="${node.eclipseversion}"></c:out></td>
+			</tr>
+			</c:if>
+			</table>
+			</p>
+			</div>
 			<div class="entry">
 				<h3>Metrics</h3>
 				<p><img src="<c:url value="/images/download/${node.id}.png"></c:url>" width="500" height="300" alt="Download staticstics" /></p>

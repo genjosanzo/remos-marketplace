@@ -36,7 +36,7 @@ Description: A two-column, fixed-width and lightweight template ideal for 1024x7
 	<h1><a href="/marketplace">My Eclipse Marketplace </a></h1>
 	<h2> &raquo;&nbsp;&nbsp;&nbsp;Category</h2>
 </div>
-<jsp:include page="../includes/header.html"/>' 
+<jsp:include page="../includes/header.jsp"/>' 
 <!-- end header -->
 </div>
 <!-- start page -->
