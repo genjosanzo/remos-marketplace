@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	  xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd"
+       default-autowire="byType">
+       
+    <bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:application.properties" />
+	</bean>
+	
+	<import resource="databaseContext.xml"/>
+	<import resource="transactionContext.xml"/>
+	<import resource="genBeanContext.xml"/>
+	<import resource="dwrContext.xml"/>
+	
+	
+	
+	<bean id="marketAndCategoryServlet" class="org.remus.marketplace.servlets.MarketAndCateogriesListing">
+        <property name="marketDao" ref="marketBean" />
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="categoryServlet" class="org.remus.marketplace.servlets.CategoryListing">
+        <property name="categoryDao" ref="categoryBean" />
+        <property name="marketDao" ref="marketBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="contentServlet" class="org.remus.marketplace.servlets.ContentListing">
+        <property name="categoryDao" ref="categoryBean" />
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="downloadDao" ref="downloadBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="featuredServlet" class="org.remus.marketplace.servlets.FeaturedListing">
+        <property name="categoryDao" ref="categoryBean" />
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="recentServlet" class="org.remus.marketplace.servlets.RecentListing">
+        <property name="categoryDao" ref="categoryBean" />
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="popularServlet" class="org.remus.marketplace.servlets.PopularListing">
+        <property name="categoryDao" ref="categoryBean" />
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="searchServlet" class="org.remus.marketplace.servlets.SearchListing">
+        <property name="indexService" ref="indexService"></property>
+        <property name="nodeDao" ref="nodeBean" />
+        <property name="serverPrefix" value="${server.prefix}"></property>
+    </bean>
+	<bean id="statisticsServlet" class="org.remus.marketplace.servlets.ImageStreamer">
+        <property name="imagePath" value="${images.dir}"></property>
+    </bean>
+    
+    <bean id="statisticsGenerator" class="org.remus.marketplace.scheduling.GenerateStatisticsJob">
+    	<property name="nodeDao" ref="nodeBean"></property>
+    	<property name="clickthroughDao" ref="clickthroughBean"></property>
+    	<property name="downloadDao" ref="downloadBean"></property>
+    	<property name="imageFolder" value="${images.dir}"></property>
+    	<property name="month" value="6"></property>
+    </bean>
+    
+    <bean id="successfullDownloadServlet" class="org.remus.marketplace.servlets.SuccessfullDownloadServlet">
+    	<property name="nodeDao" ref="nodeBean"></property>
+    	<property name="downloadDao" ref="downloadBean"></property>
+    </bean>
+    
+    <task:scheduled-tasks>
+		<task:scheduled ref="statisticsGenerator" method="run" fixed-rate="86400000" />
+	</task:scheduled-tasks>
+    
+	
+
+</beans>
